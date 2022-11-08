@@ -1,7 +1,6 @@
 import React, {useMemo, useRef} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {styles} from '../styles';
-
 import {useSelector} from 'react-redux';
 import {reduxState} from '../types';
 

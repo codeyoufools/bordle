@@ -91,4 +91,35 @@ export const styles = StyleSheet.create({
   alertContainer: {
     alignItems: 'center',
   },
+  wordLengthButton: {
+    width: 50,
+    height: 50,
+    //backgroundColor: 'rgb(33,150,243)',
+    backgroundColor: '#2d3436',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    margin: 10,
+  },
+
+  wordLengthButtonSelected: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    margin: 10,
+    backgroundColor: '#44bd32',
+  },
+  wordLengthText: {
+    fontSize: 22,
+    fontFamily: 'RobotoSlab',
+    color: 'white',
+  },
 });

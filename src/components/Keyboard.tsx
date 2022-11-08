@@ -7,7 +7,7 @@ import {setGuess, submitLine} from '../state/boardSlice';
 import {endGame, setGameplayAlert} from '../state/gameStateSlice';
 import {disableKeyboard, updateKeyboardLetters} from '../state/keyboardSlice';
 import {evaluateKeyboardColoring} from '../utils/evaluateColoring';
-import {wordList} from '../wordList';
+import {words_all} from '../wordList';
 import {useDispatch, useSelector} from 'react-redux';
 import {reduxState} from '../types';
 import {config} from '../app.config';
@@ -19,7 +19,7 @@ export const Keyboard = () => {
   const {guess, currentLine} = useSelector((state: reduxState) => {
     return state.board;
   });
-  const {secret} = useSelector((state: reduxState) => {
+  const {secret, stage, wordLength} = useSelector((state: reduxState) => {
     return state.gameState;
   });
   const {enabled} = useSelector((state: reduxState) => {
@@ -36,9 +36,9 @@ export const Keyboard = () => {
     }
 
     if (value == 'Enter') {
-      if (guess.length == config.WORD_MAX_LETTERS) {
+      if (guess.length == wordLength) {
         if (
-          !wordList.find(w => {
+          !words_all.find(w => {
             return w == guess;
           })
         ) {
@@ -75,7 +75,7 @@ export const Keyboard = () => {
       dispatch(setGameplayAlert('Not enough letters entered.'));
       return;
     }
-    if (guess.length == config.WORD_MAX_LETTERS) return;
+    if (guess.length == wordLength) return;
     else {
       dispatch(setGuess(guess + value));
     }
@@ -89,7 +89,9 @@ export const Keyboard = () => {
   const mutableUpdateGuess = useRef((value: string) => {});
   mutableUpdateGuess.current = updateGuess;
   return useMemo(() => {
-    return (
+    return stage == 'over' ? (
+      <View></View>
+    ) : (
       <View style={styles.keyboardContainer}>
         {f.map((t, i) => {
           if (i == f.length - 1) {
@@ -112,5 +114,5 @@ export const Keyboard = () => {
         })}
       </View>
     );
-  }, []);
+  }, [stage]);
 };

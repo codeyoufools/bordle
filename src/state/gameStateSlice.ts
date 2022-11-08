@@ -1,12 +1,21 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {wordList} from '../wordList';
+import {words_all} from '../wordList';
 import {reduxState} from '../types';
+import {config} from '../app.config';
+
+const getRandomWordOfLength = (length: number) => {
+  const validWords = words_all.filter(w => {
+    return w.length == length;
+  });
+  return validWords[Math.round(Math.random() * validWords.length)];
+};
 
 const getInitialState = () => {
   return {
     stage: 'playing',
-    secret: wordList[Math.round(Math.random() * wordList.length)],
+    secret: getRandomWordOfLength(config.WORD_MAX_LETTERS),
     gameplayAlert: '',
+    wordLength: config.WORD_MAX_LETTERS,
   };
 };
 const gameStateSlice = createSlice({
@@ -19,21 +28,29 @@ const gameStateSlice = createSlice({
     beginGame(state: reduxState['gameState']) {
       state.stage = 'playing';
     },
-    setSecret(state: reduxState['gameState'], action) {
-      state.secret = action.payload;
+
+    setWordLength(state: reduxState['gameState'], action) {
+      state.wordLength = action.payload;
     },
     setGameplayAlert(state: reduxState['gameState'], action) {
       state.gameplayAlert = action.payload;
     },
-    resetGameState() {
+    resetGameState(state: reduxState['gameState']) {
       return {
-        ...getInitialState(),
-        secret: wordList[Math.round(Math.random() * wordList.length)],
+        stage: 'playing',
+        gameplayAlert: '',
+        wordLength: state.wordLength,
+        secret: getRandomWordOfLength(state.wordLength),
       };
     },
   },
 });
-export const {endGame, beginGame, setSecret, setGameplayAlert, resetGameState} =
-  gameStateSlice.actions;
+export const {
+  endGame,
+  beginGame,
+  setWordLength,
+  setGameplayAlert,
+  resetGameState,
+} = gameStateSlice.actions;
 
 export default gameStateSlice.reducer;

@@ -4,9 +4,11 @@ import {useSelector} from 'react-redux';
 import BoardLetter from './BoardLetter';
 import {evaluateBoardColoring} from '../utils/evaluateColoring';
 import {styles} from '../styles';
+import {reduxState} from '../types';
 
-export const ColoredBoardRow: React.FC<{guess: string}> = ({guess}) => {
+export const ColoredBoardRow: React.FC<{guess: string[]}> = ({guess}) => {
   const {secret} = useSelector((state: any) => state.gameState);
+  const {stage} = useSelector((state: reduxState) => state.gameState);
 
   const rotAnim = useRef(new Animated.Value(0)).current;
 
@@ -23,19 +25,19 @@ export const ColoredBoardRow: React.FC<{guess: string}> = ({guess}) => {
   });
 
   return useMemo(() => {
-    const colors = evaluateBoardColoring(guess, secret);
+    const colors = evaluateBoardColoring(guess.join(''), secret);
     return (
       <Animated.View
         style={[
           styles.boardRowContainer,
           {transform: [{rotateX: rotateData}]},
         ]}>
-        {Object.values(guess).map((g, i) => {
+        {guess.map((g, i) => {
           return (
             <BoardLetter colored={true} key={i} guess={g} status={colors[i]} />
           );
         })}
       </Animated.View>
     );
-  }, [guess]);
+  }, [guess, stage]);
 };

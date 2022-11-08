@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import {Button, SafeAreaView, View} from 'react-native';
+import {Button, SafeAreaView, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Keyboard} from './Keyboard';
@@ -19,6 +19,7 @@ import {AlertBox} from './AlertBox';
 import {resetGameState} from '../state/gameStateSlice';
 import {resetKeyboard} from '../state/keyboardSlice';
 import {resetBoardState} from '../state/boardSlice';
+import {ToggleableButtons} from './ToggleableButton';
 const startNewGame = (dispatch: any) => {
   dispatch(resetGameState());
   dispatch(resetBoardState());
@@ -27,18 +28,30 @@ const startNewGame = (dispatch: any) => {
 const Bordle = () => {
   const dispatch = useDispatch();
   const {stage} = useSelector((state: any) => state.gameState);
+
   return (
     <SafeAreaView>
       <View style={styles.appContainer}>
         <Board />
         <AlertBox />
         {stage == 'over' ? (
-          <Button
-            title="New Game"
-            onPress={() => {
-              startNewGame(dispatch);
-            }}
-          />
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+            }}>
+            <Text>Select word length:</Text>
+            <ToggleableButtons />
+            <Button
+              title="New Game"
+              onPress={() => {
+                startNewGame(dispatch);
+              }}
+            />
+          </View>
         ) : undefined}
         <Keyboard />
       </View>

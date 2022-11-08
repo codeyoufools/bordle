@@ -12,6 +12,9 @@ export const BoardRow: React.FC<{guess: string[]; line: number}> = ({
   const currentLine = useSelector(
     (state: reduxState) => state.board.currentLine,
   );
+  const {stage, wordLength} = useSelector(
+    (state: reduxState) => state.gameState,
+  );
   const error = useSelector(
     (state: reduxState) => state.gameState.gameplayAlert,
   );
@@ -55,7 +58,7 @@ export const BoardRow: React.FC<{guess: string[]; line: number}> = ({
 
   return useMemo(() => {
     const part = Object.values(guess);
-    guess = new Array(config.WORD_MAX_LETTERS).fill('');
+    guess = new Array(wordLength).fill('');
     part.map((l, i) => (guess[i] = l));
     return (
       <Animated.View
@@ -81,5 +84,5 @@ export const BoardRow: React.FC<{guess: string[]; line: number}> = ({
         })}
       </Animated.View>
     );
-  }, [guess, anim]);
+  }, [guess, anim, stage]);
 };

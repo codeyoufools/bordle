@@ -1,6 +1,6 @@
-import {configureStore, createListenerMiddleware} from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import gameStateReducer from './gameStateSlice';
-import boardReducer, {appendGuess} from './boardSlice';
+import boardReducer from './boardSlice';
 import keyboardReducer from './keyboardSlice';
 
 export default configureStore({

@@ -13,5 +13,6 @@ export type reduxState = {
     stage: string;
     secret: string;
     gameplayAlert: string;
+    wordLength: number;
   };
 };
